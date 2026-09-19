@@ -650,5 +650,6 @@
       "yes": "f:env.game",
       "no": "q:env.library?"
     }
-  }
+  },
+  "type": "decision-tree"
 }

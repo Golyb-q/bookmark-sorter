@@ -1,0 +1,364 @@
+{
+  "id": "functional-web-space",
+  "type": "feature-space",
+  "name": "Functional Web Space",
+  "version": "0.1.0",
+  "inboxLabel": "00 Входящие",
+  "description": "Описывает сайт независимыми функциональными признаками и относит его к ближайшему прототипу. Не заставляет рано выбирать один взаимоисключающий тип.",
+  "folders": [
+    {
+      "id": "fs.social",
+      "name": "10 Социальные и контентные",
+      "children": [
+        {
+          "id": "fs.social.network",
+          "name": "Социальные сети",
+          "children": []
+        },
+        {
+          "id": "fs.social.messaging",
+          "name": "Мессенджеры и сообщества",
+          "children": []
+        },
+        {
+          "id": "fs.content.media",
+          "name": "Медиабиблиотеки",
+          "children": []
+        },
+        {
+          "id": "fs.content.knowledge",
+          "name": "Базы знаний и справочники",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "fs.work",
+      "name": "20 Работа и создание",
+      "children": [
+        {
+          "id": "fs.work.workspace",
+          "name": "Рабочие пространства и проекты",
+          "children": []
+        },
+        {
+          "id": "fs.work.ai",
+          "name": "Диалоговые AI-среды",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "fs.interactive",
+      "name": "30 Интерактивные среды",
+      "children": [
+        {
+          "id": "fs.interactive.game",
+          "name": "Игры и симуляции",
+          "children": []
+        },
+        {
+          "id": "fs.interactive.live",
+          "name": "Карты и live-системы",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "fs.operator",
+      "name": "40 Операторы",
+      "children": [
+        {
+          "id": "fs.operator.search",
+          "name": "Поиск и обнаружение",
+          "children": []
+        },
+        {
+          "id": "fs.operator.transform",
+          "name": "Преобразователи",
+          "children": []
+        },
+        {
+          "id": "fs.operator.calculate",
+          "name": "Калькуляторы",
+          "children": []
+        },
+        {
+          "id": "fs.operator.transfer",
+          "name": "Передача и хостинг",
+          "children": []
+        },
+        {
+          "id": "fs.operator.monitor",
+          "name": "Мониторинг и аналитика",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "fs.service",
+      "name": "50 Сервисные среды",
+      "children": [
+        {
+          "id": "fs.service.market",
+          "name": "Рынки и маркетплейсы",
+          "children": []
+        },
+        {
+          "id": "fs.service.admin",
+          "name": "Панели управления и кабинеты",
+          "children": []
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "accounts",
+      "text": "У сервиса есть устойчивые пользовательские аккаунты, важные для его работы?",
+      "weight": 1
+    },
+    {
+      "id": "profiles",
+      "text": "Публичные профили пользователей или авторов — заметная часть структуры сервиса?",
+      "weight": 1
+    },
+    {
+      "id": "social_graph",
+      "text": "Есть явные связи между людьми: друзья, подписки или followers?",
+      "weight": 1
+    },
+    {
+      "id": "private_messages",
+      "text": "Есть личные сообщения или приватные диалоги между людьми?",
+      "weight": 1
+    },
+    {
+      "id": "communities",
+      "text": "Есть устойчивые группы, сообщества, серверы, форумы или каналы с участниками?",
+      "weight": 1
+    },
+    {
+      "id": "public_posts",
+      "text": "Пользователи регулярно публикуют самостоятельные публичные посты или материалы?",
+      "weight": 1
+    },
+    {
+      "id": "personal_feed",
+      "text": "Есть персональная лента, собираемая из подписок или рекомендаций?",
+      "weight": 1
+    },
+    {
+      "id": "comments",
+      "text": "Комментарии и обсуждения вокруг публикаций — заметная часть сервиса?",
+      "weight": 0.8
+    },
+    {
+      "id": "content_corpus",
+      "text": "Внутри есть большой устойчивый корпус материалов, который можно долго просматривать независимо от своего аккаунта?",
+      "weight": 1.2
+    },
+    {
+      "id": "media_first",
+      "text": "Основная масса материалов — изображения, видео или аудио?",
+      "weight": 1
+    },
+    {
+      "id": "knowledge_first",
+      "text": "Основная масса материалов — справочные, учебные, энциклопедические или документирующие тексты?",
+      "weight": 1
+    },
+    {
+      "id": "create_objects",
+      "text": "Пользователь создаёт собственные долгоживущие объекты: проекты, документы, репозитории, доски и т.п.?",
+      "weight": 1
+    },
+    {
+      "id": "collab_edit",
+      "text": "Есть совместное редактирование или совместная работа над одними и теми же объектами?",
+      "weight": 1
+    },
+    {
+      "id": "ai_dialog",
+      "text": "Главное взаимодействие — диалог с программным агентом или персонажем?",
+      "weight": 1.4
+    },
+    {
+      "id": "game_rules",
+      "text": "Главное взаимодействие подчиняется правилам игры или симуляции?",
+      "weight": 1.4
+    },
+    {
+      "id": "persistent_game",
+      "text": "Есть постоянное игровое состояние: профиль, прогресс, рейтинг, мир, инвентарь или история матчей?",
+      "weight": 1
+    },
+    {
+      "id": "geospatial",
+      "text": "География или карта — основная координата, через которую исследуют содержимое?",
+      "weight": 1.3
+    },
+    {
+      "id": "realtime_external",
+      "text": "Сервис показывает постоянно меняющееся состояние внешнего реального мира или системы в реальном времени?",
+      "weight": 1.2
+    },
+    {
+      "id": "search_core",
+      "text": "Поиск или обнаружение уже существующих внешних/внутренних объектов — главная функция сервиса?",
+      "weight": 1
+    },
+    {
+      "id": "transform_core",
+      "text": "Главная функция — преобразовать предоставленные данные в другую форму, формат, кодировку или представление?",
+      "weight": 1.3
+    },
+    {
+      "id": "calculate_core",
+      "text": "Главная функция — вычислить новое значение или ответ из введённых данных?",
+      "weight": 1.2
+    },
+    {
+      "id": "transfer_core",
+      "text": "Главная функция — загрузить, передать, опубликовать или временно разместить файл/ссылку?",
+      "weight": 1.2
+    },
+    {
+      "id": "monitor_core",
+      "text": "Главная функция — собирать события/метрики во времени и затем показывать результаты наблюдения?",
+      "weight": 1.3
+    },
+    {
+      "id": "commerce_core",
+      "text": "Товары, продавцы, объявления, цены и сделки образуют ядро сервиса?",
+      "weight": 1.3
+    },
+    {
+      "id": "admin_core",
+      "text": "Через сервис в основном управляют состоянием другой системы, устройства, сервера, аккаунта или услуги?",
+      "weight": 1.3
+    }
+  ],
+  "prototypes": {
+    "fs.social.network": {
+      "accounts": 1,
+      "profiles": 1,
+      "social_graph": 1,
+      "public_posts": 1,
+      "personal_feed": 1,
+      "comments": 1,
+      "transform_core": 0,
+      "calculate_core": 0,
+      "admin_core": 0,
+      "game_rules": 0
+    },
+    "fs.social.messaging": {
+      "accounts": 1,
+      "private_messages": 1,
+      "communities": 1,
+      "content_corpus": 0,
+      "transform_core": 0,
+      "calculate_core": 0,
+      "commerce_core": 0
+    },
+    "fs.content.media": {
+      "content_corpus": 1,
+      "media_first": 1,
+      "ai_dialog": 0,
+      "game_rules": 0,
+      "admin_core": 0,
+      "transform_core": 0
+    },
+    "fs.content.knowledge": {
+      "content_corpus": 1,
+      "knowledge_first": 1,
+      "ai_dialog": 0,
+      "game_rules": 0,
+      "commerce_core": 0,
+      "transfer_core": 0
+    },
+    "fs.work.workspace": {
+      "accounts": 1,
+      "create_objects": 1,
+      "collab_edit": 1,
+      "game_rules": 0,
+      "commerce_core": 0,
+      "transform_core": 0,
+      "calculate_core": 0
+    },
+    "fs.work.ai": {
+      "accounts": 1,
+      "ai_dialog": 1,
+      "social_graph": 0,
+      "commerce_core": 0,
+      "game_rules": 0,
+      "geospatial": 0
+    },
+    "fs.interactive.game": {
+      "game_rules": 1,
+      "persistent_game": 1,
+      "commerce_core": 0,
+      "knowledge_first": 0,
+      "transform_core": 0,
+      "calculate_core": 0
+    },
+    "fs.interactive.live": {
+      "geospatial": 1,
+      "realtime_external": 1,
+      "ai_dialog": 0,
+      "game_rules": 0,
+      "transform_core": 0,
+      "calculate_core": 0
+    },
+    "fs.operator.search": {
+      "search_core": 1,
+      "create_objects": 0,
+      "game_rules": 0,
+      "ai_dialog": 0,
+      "commerce_core": 0
+    },
+    "fs.operator.transform": {
+      "transform_core": 1,
+      "social_graph": 0,
+      "game_rules": 0,
+      "commerce_core": 0,
+      "admin_core": 0
+    },
+    "fs.operator.calculate": {
+      "calculate_core": 1,
+      "social_graph": 0,
+      "game_rules": 0,
+      "commerce_core": 0,
+      "admin_core": 0
+    },
+    "fs.operator.transfer": {
+      "transfer_core": 1,
+      "social_graph": 0,
+      "game_rules": 0,
+      "commerce_core": 0,
+      "calculate_core": 0
+    },
+    "fs.operator.monitor": {
+      "monitor_core": 1,
+      "game_rules": 0,
+      "commerce_core": 0,
+      "transform_core": 0,
+      "calculate_core": 0
+    },
+    "fs.service.market": {
+      "commerce_core": 1,
+      "game_rules": 0,
+      "transform_core": 0,
+      "calculate_core": 0,
+      "ai_dialog": 0
+    },
+    "fs.service.admin": {
+      "accounts": 1,
+      "admin_core": 1,
+      "game_rules": 0,
+      "transform_core": 0,
+      "calculate_core": 0,
+      "media_first": 0
+    }
+  }
+}
