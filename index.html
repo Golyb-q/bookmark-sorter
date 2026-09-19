@@ -117,93 +117,39 @@ header{display:flex;align-items:center;justify-content:space-between;gap:16px;ma
 
 <script>
 (()=>{'use strict';
-const APP_VERSION='2.0.1'; const DB_NAME='bookmark-sorter-v2'; const STORE='kv'; const SESSION_KEY='session'; const PRESETS_KEY='bookmark-sorter-custom-presets-v2';
+const APP_VERSION='2.1.0'; const DB_NAME='bookmark-sorter-v2'; const STORE='kv'; const SESSION_KEY='session'; const PRESETS_KEY='bookmark-sorter-custom-presets-v2';
 const $=id=>document.getElementById(id); const screens=['homeScreen','presetsScreen','editorScreen','gameScreen','resultsScreen'];
 const E={}; document.querySelectorAll('[id]').forEach(x=>E[x.id]=x);
 const uid=(p='id')=>p+'_'+Math.random().toString(36).slice(2,8)+Date.now().toString(36).slice(-4);
 const clone=x=>JSON.parse(JSON.stringify(x)); const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const targetQ=id=>'q:'+id, targetF=id=>'f:'+id; const isQ=t=>String(t||'').startsWith('q:'), isF=t=>String(t||'').startsWith('f:'), targetId=t=>String(t||'').slice(2);
 
-const DEFAULT_PRESET={
- id:'structural-web', name:'Structural Web Ontology', version:'1.1.0', builtin:true, inboxLabel:'00 Входящие', description:'Классифицирует не тему, а структурный тип того, на что указывает конкретная закладка.', rootQuestionId:'root.view',
- folders:[
-  {id:'env',name:'10 Среды',children:[{id:'env.network',name:'Сети',children:[]},{id:'env.library',name:'Библиотеки',children:[]},{id:'env.workshop',name:'Мастерские',children:[]},{id:'env.market',name:'Рынки',children:[]},{id:'env.cabinet',name:'Кабинеты',children:[]},{id:'env.world',name:'Миры',children:[]}]},
-  {id:'space',name:'20 Пространства',children:[{id:'space.profile',name:'Профили',children:[]},{id:'space.channel',name:'Каналы',children:[]},{id:'space.community',name:'Сообщества',children:[]},{id:'space.dialog',name:'Диалоги',children:[]},{id:'space.discussion',name:'Обсуждения',children:[]},{id:'space.project',name:'Проекты',children:[]},{id:'space.collection',name:'Коллекции',children:[]},{id:'space.section',name:'Разделы',children:[]}]},
-  {id:'object',name:'30 Объекты',children:[
-   {id:'obj.pub',name:'Публикации',children:[{id:'obj.article',name:'Статьи',children:[]},{id:'obj.post',name:'Посты',children:[]},{id:'obj.message',name:'Сообщения',children:[]},{id:'obj.docs',name:'Страницы документации',children:[]}]},
-   {id:'obj.media',name:'Медиа',children:[{id:'obj.image',name:'Изображения',children:[]},{id:'obj.video',name:'Видео',children:[]},{id:'obj.audio',name:'Аудио',children:[]}]},
-   {id:'obj.file',name:'Файлы',children:[{id:'obj.document',name:'Документы',children:[]},{id:'obj.archive',name:'Архивы',children:[]},{id:'obj.download',name:'Загрузки',children:[]}]},
-   {id:'obj.software',name:'ПО',children:[{id:'obj.release',name:'Релизы',children:[]},{id:'obj.package',name:'Пакеты',children:[]},{id:'obj.model',name:'Модели',children:[]},{id:'obj.script',name:'Скрипты',children:[]}]},
-   {id:'obj.record',name:'Записи',children:[{id:'obj.task',name:'Задачи',children:[]},{id:'obj.change',name:'Изменения',children:[]},{id:'obj.product',name:'Товары',children:[]},{id:'obj.event',name:'События',children:[]},{id:'obj.place',name:'Места',children:[]},{id:'obj.catalogitem',name:'Элементы каталога',children:[]}]}
-  ]},
-  {id:'view',name:'40 Представления',children:[{id:'view.search',name:'Поиски',children:[]},{id:'view.filter',name:'Фильтры',children:[]},{id:'view.feed',name:'Ленты',children:[]},{id:'view.rank',name:'Рейтинги',children:[]},{id:'view.dashboard',name:'Панели',children:[]},{id:'view.map',name:'Карты',children:[]},{id:'view.calendar',name:'Календари',children:[]},{id:'view.compare',name:'Сравнения',children:[]},{id:'view.list',name:'Списки',children:[]}]},
-  {id:'op',name:'50 Операторы',children:[{id:'op.find',name:'Найти',children:[]},{id:'op.inspect',name:'Исследовать',children:[]},{id:'op.calc',name:'Вычислить',children:[]},{id:'op.transform',name:'Преобразовать',children:[]},{id:'op.create',name:'Создать',children:[]},{id:'op.transfer',name:'Передать',children:[]},{id:'op.receive',name:'Получить',children:[]},{id:'op.manage',name:'Управлять',children:[]},{id:'op.access',name:'Получить доступ',children:[]},{id:'op.experience',name:'Испытать',children:[]}]}
- ],
- questions:{
-  'root.view':{id:'root.view',text:'Эта страница показывает набор результатов, который зависит от поиска, фильтра, сортировки, ленты, карты или другого выбранного вида?',yes:targetQ('view.search?'),no:targetQ('root.operator')},
-  'root.operator':{id:'root.operator',text:'Этот ресурс в основном работает как операция: ты даёшь ему вход, данные или команду и получаешь результат?',yes:targetQ('op.find?'),no:targetQ('root.object')},
-  'root.object':{id:'root.object',text:'Закладка указывает на одну конкретную самостоятельную вещь, а не на место, где находятся другие вещи?',yes:targetQ('obj.media?'),no:targetQ('root.space')},
-  'root.space':{id:'root.space',text:'Это устойчивое место внутри более крупного ресурса: канал, профиль, проект, сообщество, раздел или похожая область?',yes:targetQ('space.project?'),no:targetQ('env.workshop?')},
-  'env.workshop?':{id:'env.workshop?',text:'В центре ресурса — создание и изменение твоих или командных проектов, документов и других рабочих сущностей?',yes:targetF('env.workshop'),no:targetQ('env.market?')},
-  'env.market?':{id:'env.market?',text:'В центре — товары, объявления, предложения, продавцы и сделки?',yes:targetF('env.market'),no:targetQ('env.cabinet?')},
-  'env.cabinet?':{id:'env.cabinet?',text:'Это в основном твои отношения с одной организацией или сервисом: услуги, счета, настройки, подписка, личные данные?',yes:targetF('env.cabinet'),no:targetQ('env.world?')},
-  'env.world?':{id:'env.world?',text:'Само участие в интерактивном виртуальном мире является главным содержанием ресурса?',yes:targetF('env.world'),no:targetQ('env.library?')},
-  'env.library?':{id:'env.library?',text:'Если убрать подписки, комментарии и личные сообщения, останется ли основная ценность ресурса в самих опубликованных материалах?',yes:targetF('env.library'),no:targetF('env.network')},
-  'space.project?':{id:'space.project?',text:'Здесь ведётся работа над одним проектом или набором связанных изменяемых сущностей?',yes:targetF('space.project'),no:targetQ('space.dialog?')},
-  'space.dialog?':{id:'space.dialog?',text:'Это разговор между заранее определёнными участниками?',yes:targetF('space.dialog'),no:targetQ('space.discussion?')},
-  'space.discussion?':{id:'space.discussion?',text:'Это обсуждение одной темы, куда участники добавляют сообщения?',yes:targetF('space.discussion'),no:targetQ('space.community?')},
-  'space.community?':{id:'space.community?',text:'Множество участников образуют здесь устойчивое сообщество?',yes:targetF('space.community'),no:targetQ('space.channel?')},
-  'space.channel?':{id:'space.channel?',text:'Это поток публикаций одного источника или автора, на который можно подписаться?',yes:targetF('space.channel'),no:targetQ('space.profile?')},
-  'space.profile?':{id:'space.profile?',text:'Страница представляет одного человека, автора, аккаунт или организацию?',yes:targetF('space.profile'),no:targetQ('space.collection?')},
-  'space.collection?':{id:'space.collection?',text:'Это вручную собранный набор других объектов — плейлист, альбом, подборка или коллекция?',yes:targetF('space.collection'),no:targetF('space.section')},
-  'obj.media?':{id:'obj.media?',text:'Эту конкретную штуку в первую очередь смотрят или слушают?',yes:targetQ('obj.video?'),no:targetQ('obj.file?')},
-  'obj.video?':{id:'obj.video?',text:'Это движущееся изображение — ролик, клип, анимация или запись стрима?',yes:targetF('obj.video'),no:targetQ('obj.audio?')},
-  'obj.audio?':{id:'obj.audio?',text:'Это в первую очередь звук — трек, подкаст или запись?',yes:targetF('obj.audio'),no:targetF('obj.image')},
-  'obj.file?':{id:'obj.file?',text:'URL ведёт прямо на скачиваемый файл или отдельный файловый ресурс?',yes:targetQ('obj.document?'),no:targetQ('obj.software?')},
-  'obj.document?':{id:'obj.document?',text:'Это документ для чтения: PDF, DOC, электронная книга и подобное?',yes:targetF('obj.document'),no:targetQ('obj.archive?')},
-  'obj.archive?':{id:'obj.archive?',text:'Это архив или контейнер из нескольких файлов?',yes:targetF('obj.archive'),no:targetF('obj.download')},
-  'obj.software?':{id:'obj.software?',text:'Это конкретный программный артефакт: пакет, релиз, модель или скрипт?',yes:targetQ('obj.release?'),no:targetQ('obj.task?')},
-  'obj.release?':{id:'obj.release?',text:'Это конкретная версия или релиз программы?',yes:targetF('obj.release'),no:targetQ('obj.model?')},
-  'obj.model?':{id:'obj.model?',text:'Это модель — например ML/AI-модель или похожий распространяемый артефакт?',yes:targetF('obj.model'),no:targetQ('obj.script?')},
-  'obj.script?':{id:'obj.script?',text:'Это небольшой отдельный скрипт или сниппет?',yes:targetF('obj.script'),no:targetF('obj.package')},
-  'obj.task?':{id:'obj.task?',text:'Это задача, issue, ticket или другой отслеживаемый пункт работы?',yes:targetF('obj.task'),no:targetQ('obj.change?')},
-  'obj.change?':{id:'obj.change?',text:'Это изменение: pull request, merge request, patch, commit или предложение правки?',yes:targetF('obj.change'),no:targetQ('obj.product?')},
-  'obj.product?':{id:'obj.product?',text:'Это карточка конкретного товара или предложения?',yes:targetF('obj.product'),no:targetQ('obj.event?')},
-  'obj.event?':{id:'obj.event?',text:'Это конкретное событие с датой или временем?',yes:targetF('obj.event'),no:targetQ('obj.place?')},
-  'obj.place?':{id:'obj.place?',text:'Это конкретное физическое место или географический объект?',yes:targetF('obj.place'),no:targetQ('obj.post?')},
-  'obj.post?':{id:'obj.post?',text:'Это короткая публикация в социальной или новостной ленте?',yes:targetF('obj.post'),no:targetQ('obj.message?')},
-  'obj.message?':{id:'obj.message?',text:'Это одно отдельное сообщение внутри разговора, канала или треда?',yes:targetF('obj.message'),no:targetQ('obj.docs?')},
-  'obj.docs?':{id:'obj.docs?',text:'Это страница документации конкретного продукта, API или технологии?',yes:targetF('obj.docs'),no:targetF('obj.article')},
-  'view.search?':{id:'view.search?',text:'Здесь показаны результаты введённого поискового запроса?',yes:targetF('view.search'),no:targetQ('view.filter?')},
-  'view.filter?':{id:'view.filter?',text:'Элементы выбраны по тегам, категориям, условиям или настройкам фильтра?',yes:targetF('view.filter'),no:targetQ('view.feed?')},
-  'view.feed?':{id:'view.feed?',text:'Это постоянно обновляющийся поток новых элементов?',yes:targetF('view.feed'),no:targetQ('view.rank?')},
-  'view.rank?':{id:'view.rank?',text:'Элементы специально упорядочены по рейтингу, популярности, баллам или месту?',yes:targetF('view.rank'),no:targetQ('view.dashboard?')},
-  'view.dashboard?':{id:'view.dashboard?',text:'Главное здесь — показатели, графики, состояние системы и агрегированные данные?',yes:targetF('view.dashboard'),no:targetQ('view.map?')},
-  'view.map?':{id:'view.map?',text:'Главное представление здесь географическое — карта или выбранная область карты?',yes:targetF('view.map'),no:targetQ('view.calendar?')},
-  'view.calendar?':{id:'view.calendar?',text:'Главное представление здесь временное — календарь, расписание или таймлайн?',yes:targetF('view.calendar'),no:targetQ('view.compare?')},
-  'view.compare?':{id:'view.compare?',text:'Несколько объектов специально поставлены рядом для сравнения?',yes:targetF('view.compare'),no:targetF('view.list')},
-  'op.find?':{id:'op.find?',text:'Главный результат — найти существующие вещи, страницы, файлы или ссылки?',yes:targetF('op.find'),no:targetQ('op.inspect?')},
-  'op.inspect?':{id:'op.inspect?',text:'Ты даёшь сервису объект или данные, а он сообщает свойства, состояние или результат анализа?',yes:targetF('op.inspect'),no:targetQ('op.calc?')},
-  'op.calc?':{id:'op.calc?',text:'Ты вводишь данные, а результат — вычисленное значение, число или расчёт?',yes:targetF('op.calc'),no:targetQ('op.transform?')},
-  'op.transform?':{id:'op.transform?',text:'На входе и выходе примерно одна и та же информация, но в другой форме, формате или кодировке?',yes:targetF('op.transform'),no:targetQ('op.create?')},
-  'op.create?':{id:'op.create?',text:'Сервис создаёт новый артефакт из заданных параметров: QR, изображение, текст, конфиг и т.п.?',yes:targetF('op.create'),no:targetQ('op.transfer?')},
-  'op.transfer?':{id:'op.transfer?',text:'Главная задача — загрузить, отправить или опубликовать существующий файл или объект?',yes:targetF('op.transfer'),no:targetQ('op.receive?')},
-  'op.receive?':{id:'op.receive?',text:'Сервис выдаёт тебе ресурс: временный адрес, номер, bridge, токен, идентификатор и т.п.?',yes:targetF('op.receive'),no:targetQ('op.manage?')},
-  'op.manage?':{id:'op.manage?',text:'Через страницу ты меняешь состояние другой системы, сервера, устройства или услуги?',yes:targetF('op.manage'),no:targetQ('op.access?')},
-  'op.access?':{id:'op.access?',text:'Основная задача страницы — войти, авторизоваться, подключиться или получить доступ?',yes:targetF('op.access'),no:targetF('op.experience')}
- }
-};
-
-let BUILTIN_PRESET=clone(DEFAULT_PRESET);
+let BUILTIN_PRESET=null;
+let presetLoadError='';
 let db=null,state=null,editorPreset=null,selectedQuestionId=null,testState=null,pointerStart=null,pointerDx=0;
 function showScreen(id){screens.forEach(s=>E[s].classList.toggle('active',s===id));renderHeader()}
 function toast(msg){E.toast.textContent=msg;E.toast.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>E.toast.classList.remove('show'),1700)}
 function download(name,content,type='application/octet-stream'){const blob=new Blob([content],{type});const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500)}
 function getCustomPresets(){try{return JSON.parse(localStorage.getItem(PRESETS_KEY)||'[]')}catch{return[]}}
 function setCustomPresets(p){localStorage.setItem(PRESETS_KEY,JSON.stringify(p))}
-function allPresets(){return [BUILTIN_PRESET,...getCustomPresets()]}
-function getPreset(id){return allPresets().find(p=>p.id===id)||BUILTIN_PRESET}
-async function loadBuiltinPreset(){try{const r=await fetch('./presets/structural-web.json',{cache:'no-store'});if(!r.ok)return;const p=await r.json();p.builtin=true;const v=validatePreset(p);if(v.ok)BUILTIN_PRESET=p;else console.warn('External preset invalid, using fallback',v.errors)}catch(e){console.info('Using embedded preset fallback')}}
+function allPresets(){return [BUILTIN_PRESET,...getCustomPresets()].filter(Boolean)}
+function getPreset(id){const presets=allPresets();return presets.find(p=>p.id===id)||presets[0]||null}
+async function loadBuiltinPreset(){
+ try{
+  const r=await fetch('./structural-web.json',{cache:'no-store'});
+  if(!r.ok)throw new Error(`HTTP ${r.status}`);
+  const p=await r.json();
+  p.builtin=true;
+  const v=validatePreset(p);
+  if(!v.ok)throw new Error(v.errors.join(' · '));
+  BUILTIN_PRESET=p;presetLoadError='';return true;
+ }catch(e){
+  BUILTIN_PRESET=null;
+  presetLoadError=`Не удалось загрузить ./structural-web.json: ${e.message}`;
+  console.error(presetLoadError,e);
+  return false;
+ }
+}
 function presetStats(p){return {folders:flattenFolders(p).length,questions:Object.keys(p.questions||{}).length}}
 function flattenFolders(p){const out=[];const walk=(nodes,parentPath=[])=>{for(const n of nodes||[]){const path=[...parentPath,n.name];out.push({id:n.id,name:n.name,path,node:n});walk(n.children||[],path)}};walk(p.folders||[]);return out}
 function folderPath(p,id){return flattenFolders(p).find(x=>x.id===id)?.path||null}
@@ -217,9 +163,23 @@ function targetOptions(p,current=''){let s='<option value="">— выбери п
 function validatePreset(p){const errors=[],warnings=[];const qs=p.questions||{};if(!p.name?.trim())errors.push('У игры нет названия.');if(!p.rootQuestionId||!qs[p.rootQuestionId])errors.push('Корневой вопрос не существует.');if(!flattenFolders(p).length)errors.push('Нет ни одной папки результата.');for(const q of Object.values(qs)){if(!q.text?.trim())errors.push(`Пустой текст у вопроса ${q.id}.`);for(const side of ['yes','no']){const t=q[side];if(!t)errors.push(`${q.id}: переход «${side==='yes'?'Да':'Нет'}» не задан.`);else if(isQ(t)&&!qs[targetId(t)])errors.push(`${q.id}: переход ведёт к отсутствующему вопросу ${targetId(t)}.`);else if(isF(t)&&!folderExists(p,targetId(t)))errors.push(`${q.id}: переход ведёт к отсутствующей папке ${targetId(t)}.`);else if(!isQ(t)&&!isF(t))errors.push(`${q.id}: неизвестный тип перехода ${t}.`)}}
  const reachableQ=new Set(),reachableF=new Set(),visiting=new Set();let cycle=false;function walk(qid){if(visiting.has(qid)){cycle=true;return}if(reachableQ.has(qid))return;const q=qs[qid];if(!q)return;reachableQ.add(qid);visiting.add(qid);for(const t of [q.yes,q.no]){if(isQ(t))walk(targetId(t));else if(isF(t))reachableF.add(targetId(t))}visiting.delete(qid)}if(p.rootQuestionId&&qs[p.rootQuestionId])walk(p.rootQuestionId);if(cycle)errors.push('В дереве вопросов найден цикл.');const allQ=Object.keys(qs);const orphanQ=allQ.filter(id=>!reachableQ.has(id));if(orphanQ.length)warnings.push(`Недостижимые вопросы: ${orphanQ.join(', ')}`);if(!reachableF.size)errors.push('Из корневого вопроса нельзя добраться ни до одной папки.');const unusedF=flattenFolders(p).filter(f=>!reachableF.has(f.id));if(unusedF.length)warnings.push(`${unusedF.length} папок доступны только через ручной выбор.`);return{ok:!errors.length,errors,warnings,reachableQ,reachableF}}
 
-function renderPresetSelect(){const presets=allPresets();const savedRaw=localStorage.getItem('bookmark-sorter-selected-preset')||BUILTIN_PRESET.id;const saved=presets.some(p=>p.id===savedRaw)?savedRaw:BUILTIN_PRESET.id;E.homePresetSelect.innerHTML=presets.map(p=>`<option value="${esc(p.id)}" ${p.id===saved?'selected':''}>${esc(p.name)}${p.builtin?' · встроенная':''}</option>`).join('');E.homePresetSelect.value=saved;updatePresetHint()}
-function updatePresetHint(){const p=getPreset(E.homePresetSelect.value);const s=presetStats(p);E.homePresetHint.textContent=`${p.description||''} · ${s.folders} папок · ${s.questions} вопросов · v${p.version||'1.0'}`;localStorage.setItem('bookmark-sorter-selected-preset',p.id)}
-function renderPresetGrid(){E.presetGrid.innerHTML=allPresets().map(p=>{const s=presetStats(p);return `<article class="presetCard"><div style="display:flex;justify-content:space-between;gap:10px"><h3>${esc(p.name)}</h3>${p.builtin?'<span class="chip builtin">встроенная</span>':'<span class="chip">своя</span>'}</div><p>${esc(p.description||'Пользовательская игра-классификатор.')}</p><div class="presetMeta"><span class="chip">${s.folders} папок</span><span class="chip">${s.questions} вопросов</span><span class="chip">v${esc(p.version||'1.0')}</span></div><div class="presetActions"><button class="btn small primary" data-use="${esc(p.id)}">Выбрать</button><button class="btn small" data-edit="${esc(p.id)}">${p.builtin?'Клонировать':'Редактировать'}</button><button class="btn small" data-export-preset="${esc(p.id)}">JSON</button>${p.builtin?'':`<button class="btn small bad" data-delete-preset="${esc(p.id)}">Удалить</button>`}</div></article>`}).join('')}
+function renderPresetSelect(){
+ const presets=allPresets();
+ const preferred=localStorage.getItem('bookmark-sorter-selected-preset');
+ const saved=presets.some(p=>p.id===preferred)?preferred:(BUILTIN_PRESET?.id||presets[0]?.id||'');
+ E.homePresetSelect.innerHTML=presets.length?presets.map(p=>`<option value="${esc(p.id)}" ${p.id===saved?'selected':''}>${esc(p.name)}${p.builtin?' · по умолчанию':''}</option>`).join(''):'<option value="">Нет доступных игр</option>';
+ E.homePresetSelect.value=saved;
+ E.homePresetSelect.disabled=!presets.length;
+ E.editSelectedPresetBtn.disabled=!presets.length;
+ E.pickBtn.disabled=!presets.length;
+ updatePresetHint();
+}
+function updatePresetHint(){
+ const p=getPreset(E.homePresetSelect.value);
+ if(!p){E.homePresetHint.textContent=presetLoadError||'Создай или импортируй игру-классификатор.';return}
+ const s=presetStats(p);E.homePresetHint.textContent=`${p.description||''} · ${s.folders} папок · ${s.questions} вопросов · v${p.version||'1.0'}`;localStorage.setItem('bookmark-sorter-selected-preset',p.id)
+}
+function renderPresetGrid(){E.presetGrid.innerHTML=allPresets().map(p=>{const s=presetStats(p);return `<article class="presetCard"><div style="display:flex;justify-content:space-between;gap:10px"><h3>${esc(p.name)}</h3>${p.builtin?'<span class="chip builtin">по умолчанию</span>':'<span class="chip">своя</span>'}</div><p>${esc(p.description||'Пользовательская игра-классификатор.')}</p><div class="presetMeta"><span class="chip">${s.folders} папок</span><span class="chip">${s.questions} вопросов</span><span class="chip">v${esc(p.version||'1.0')}</span></div><div class="presetActions"><button class="btn small primary" data-use="${esc(p.id)}">Выбрать</button><button class="btn small" data-edit="${esc(p.id)}">${p.builtin?'Клонировать':'Редактировать'}</button><button class="btn small" data-export-preset="${esc(p.id)}">JSON</button>${p.builtin?'':`<button class="btn small bad" data-delete-preset="${esc(p.id)}">Удалить</button>`}</div></article>`}).join('')}
 function openPresets(){renderPresetGrid();showScreen('presetsScreen')}
 function newBlankPreset(){return{id:uid('preset'),name:'Моя игра',version:'1.0.0',description:'Моя схема сортировки закладок.',inboxLabel:'00 Входящие',rootQuestionId:'q1',folders:[{id:'folder.a',name:'Категория A',children:[]},{id:'folder.b',name:'Категория B',children:[]}],questions:{q1:{id:'q1',text:'Закладка относится к категории A?',yes:targetF('folder.a'),no:targetF('folder.b')}}}}
 function editPreset(id){const src=getPreset(id);editorPreset=clone(src);if(src.builtin){editorPreset.id=uid('preset');editorPreset.name=src.name+' — моя версия';editorPreset.builtin=false}selectedQuestionId=editorPreset.rootQuestionId||Object.keys(editorPreset.questions||{})[0]||null;renderEditor();showScreen('editorScreen')}
@@ -282,13 +242,13 @@ function exportHTML(){const tree=buildExportTree();return['<!DOCTYPE NETSCAPE-Bo
 function exportNow(){download('bookmarks_sorted.html',exportHTML(),'text/html;charset=utf-8');toast('Экспорт готов')}
 function finish(){showScreen('resultsScreen');const c=counts();E.rClass.textContent=c.classified;E.rDelete.textContent=c.deleted;E.rDeferred.textContent=c.deferred+c.pending;E.rEdited.textContent=c.edited;E.treePreview.textContent=treeText(buildExportTree()).join('\n')||'(экспорт пуст)';E.reviewDeferredBtn.disabled=!state.bookmarks.some(b=>b.status==='deferred'||b.status==='pending'||b.status==='processing')}
 
-async function importBookmarksFile(file){try{const text=await file.text(),bookmarks=parseBookmarks(text),preset=getPreset(E.homePresetSelect.value);const v=validatePreset(preset);if(!v.ok)throw new Error('Выбранная игра некорректна. Открой её редактор и исправь ошибки.');state=blankState(bookmarks,file.name,preset);await saveSession();renderGame();toast(`Импортировано: ${bookmarks.length}`)}catch(e){console.error(e);alert('Не получилось начать игру: '+e.message)}}
+async function importBookmarksFile(file){try{const text=await file.text(),bookmarks=parseBookmarks(text),preset=getPreset(E.homePresetSelect.value);if(!preset)throw new Error('Нет доступной игры-классификатора. Проверь ./structural-web.json или импортируй свой preset.');const v=validatePreset(preset);if(!v.ok)throw new Error('Выбранная игра некорректна. Открой её редактор и исправь ошибки.');state=blankState(bookmarks,file.name,preset);await saveSession();renderGame();toast(`Импортировано: ${bookmarks.length}`)}catch(e){console.error(e);alert('Не получилось начать игру: '+e.message)}}
 async function loadResume(){const s=await dbGet(SESSION_KEY);if(s?.bookmarks?.length){const c=(()=>{const old=state;state=s;const z=counts();state=old;return z})();E.resumeText.textContent=`${s.fileName||'bookmarks.html'} · ${c.classified+c.deleted+c.deferred}/${s.bookmarks.length} разобрано · ${s.preset?.name||'игра'}`;E.resumeBox.classList.add('show')}else E.resumeBox.classList.remove('show')}
 
 function renderHeader(){const inSession=!!state&&(E.gameScreen.classList.contains('active')||E.resultsScreen.classList.contains('active'));E.undoBtn.classList.toggle('hidden',!inSession||!state?.history.length);E.exportBtn.classList.toggle('hidden',!inSession);E.homeBtn.classList.toggle('hidden',E.homeScreen.classList.contains('active'))}
 
 // Global UI
-E.presetsBtn.onclick=openPresets;E.homeBtn.onclick=()=>{showScreen('homeScreen');renderPresetSelect();loadResume()};E.homePresetSelect.onchange=updatePresetHint;E.editSelectedPresetBtn.onclick=()=>editPreset(E.homePresetSelect.value);
+E.presetsBtn.onclick=openPresets;E.homeBtn.onclick=()=>{showScreen('homeScreen');renderPresetSelect();loadResume()};E.homePresetSelect.onchange=updatePresetHint;E.editSelectedPresetBtn.onclick=()=>{const p=getPreset(E.homePresetSelect.value);if(p)editPreset(p.id);else toast('Сначала загрузите preset')};
 E.pickBtn.onclick=()=>E.fileInput.click();E.fileInput.onchange=()=>E.fileInput.files[0]&&importBookmarksFile(E.fileInput.files[0]);['dragenter','dragover'].forEach(ev=>E.dropZone.addEventListener(ev,e=>{e.preventDefault();E.dropZone.classList.add('drag')}));['dragleave','drop'].forEach(ev=>E.dropZone.addEventListener(ev,e=>{e.preventDefault();E.dropZone.classList.remove('drag')}));E.dropZone.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f)importBookmarksFile(f)});
 E.resumeBtn.onclick=async()=>{state=await dbGet(SESSION_KEY);if(state)renderGame()};E.discardBtn.onclick=async()=>{if(confirm('Удалить прогресс текущей партии?')){await dbDel(SESSION_KEY);state=null;await loadResume();toast('Прогресс удалён')}};E.undoBtn.onclick=undo;E.exportBtn.onclick=exportNow;
 E.newPresetBtn.onclick=()=>{editorPreset=newBlankPreset();selectedQuestionId=editorPreset.rootQuestionId;renderEditor();showScreen('editorScreen')};E.importPresetBtn.onclick=()=>E.presetFileInput.click();E.presetFileInput.onchange=async()=>{const f=E.presetFileInput.files[0];if(!f)return;try{const p=JSON.parse(await f.text());p.id=p.id||uid('preset');p.builtin=false;const v=validatePreset(p);if(!v.ok)throw new Error(v.errors.join('\n'));const arr=getCustomPresets();const i=arr.findIndex(x=>x.id===p.id);if(i>=0)p.id=uid('preset');arr.push(p);setCustomPresets(arr);renderPresetGrid();renderPresetSelect();toast('Preset импортирован')}catch(e){alert('Не удалось импортировать preset: '+e.message)}E.presetFileInput.value=''};
