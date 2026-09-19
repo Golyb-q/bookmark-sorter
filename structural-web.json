@@ -1,0 +1,643 @@
+{
+  "id": "structural-web",
+  "name": "Structural Web Ontology",
+  "version": "1.1.0",
+  "inboxLabel": "00 Входящие",
+  "description": "Классифицирует не тему, а структурный тип того, на что указывает конкретная закладка.",
+  "rootQuestionId": "root.view",
+  "folders": [
+    {
+      "id": "env",
+      "name": "10 Среды",
+      "children": [
+        {
+          "id": "env.network",
+          "name": "Сети",
+          "children": []
+        },
+        {
+          "id": "env.library",
+          "name": "Библиотеки",
+          "children": []
+        },
+        {
+          "id": "env.workshop",
+          "name": "Мастерские",
+          "children": []
+        },
+        {
+          "id": "env.market",
+          "name": "Рынки",
+          "children": []
+        },
+        {
+          "id": "env.cabinet",
+          "name": "Кабинеты",
+          "children": []
+        },
+        {
+          "id": "env.world",
+          "name": "Миры",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "space",
+      "name": "20 Пространства",
+      "children": [
+        {
+          "id": "space.profile",
+          "name": "Профили",
+          "children": []
+        },
+        {
+          "id": "space.channel",
+          "name": "Каналы",
+          "children": []
+        },
+        {
+          "id": "space.community",
+          "name": "Сообщества",
+          "children": []
+        },
+        {
+          "id": "space.dialog",
+          "name": "Диалоги",
+          "children": []
+        },
+        {
+          "id": "space.discussion",
+          "name": "Обсуждения",
+          "children": []
+        },
+        {
+          "id": "space.project",
+          "name": "Проекты",
+          "children": []
+        },
+        {
+          "id": "space.collection",
+          "name": "Коллекции",
+          "children": []
+        },
+        {
+          "id": "space.section",
+          "name": "Разделы",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "object",
+      "name": "30 Объекты",
+      "children": [
+        {
+          "id": "obj.pub",
+          "name": "Публикации",
+          "children": [
+            {
+              "id": "obj.article",
+              "name": "Статьи",
+              "children": []
+            },
+            {
+              "id": "obj.post",
+              "name": "Посты",
+              "children": []
+            },
+            {
+              "id": "obj.message",
+              "name": "Сообщения",
+              "children": []
+            },
+            {
+              "id": "obj.docs",
+              "name": "Страницы документации",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "obj.media",
+          "name": "Медиа",
+          "children": [
+            {
+              "id": "obj.image",
+              "name": "Изображения",
+              "children": []
+            },
+            {
+              "id": "obj.video",
+              "name": "Видео",
+              "children": []
+            },
+            {
+              "id": "obj.audio",
+              "name": "Аудио",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "obj.file",
+          "name": "Файлы",
+          "children": [
+            {
+              "id": "obj.document",
+              "name": "Документы",
+              "children": []
+            },
+            {
+              "id": "obj.archive",
+              "name": "Архивы",
+              "children": []
+            },
+            {
+              "id": "obj.download",
+              "name": "Загрузки",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "obj.software",
+          "name": "ПО",
+          "children": [
+            {
+              "id": "obj.release",
+              "name": "Релизы",
+              "children": []
+            },
+            {
+              "id": "obj.package",
+              "name": "Пакеты",
+              "children": []
+            },
+            {
+              "id": "obj.model",
+              "name": "Модели",
+              "children": []
+            },
+            {
+              "id": "obj.script",
+              "name": "Скрипты",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "obj.record",
+          "name": "Записи",
+          "children": [
+            {
+              "id": "obj.task",
+              "name": "Задачи",
+              "children": []
+            },
+            {
+              "id": "obj.change",
+              "name": "Изменения",
+              "children": []
+            },
+            {
+              "id": "obj.product",
+              "name": "Товары",
+              "children": []
+            },
+            {
+              "id": "obj.event",
+              "name": "События",
+              "children": []
+            },
+            {
+              "id": "obj.place",
+              "name": "Места",
+              "children": []
+            },
+            {
+              "id": "obj.catalogitem",
+              "name": "Элементы каталога",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "view",
+      "name": "40 Представления",
+      "children": [
+        {
+          "id": "view.search",
+          "name": "Поиски",
+          "children": []
+        },
+        {
+          "id": "view.filter",
+          "name": "Фильтры",
+          "children": []
+        },
+        {
+          "id": "view.feed",
+          "name": "Ленты",
+          "children": []
+        },
+        {
+          "id": "view.rank",
+          "name": "Рейтинги",
+          "children": []
+        },
+        {
+          "id": "view.dashboard",
+          "name": "Панели",
+          "children": []
+        },
+        {
+          "id": "view.map",
+          "name": "Карты",
+          "children": []
+        },
+        {
+          "id": "view.calendar",
+          "name": "Календари",
+          "children": []
+        },
+        {
+          "id": "view.compare",
+          "name": "Сравнения",
+          "children": []
+        },
+        {
+          "id": "view.list",
+          "name": "Списки",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "op",
+      "name": "50 Операторы",
+      "children": [
+        {
+          "id": "op.find",
+          "name": "Найти",
+          "children": []
+        },
+        {
+          "id": "op.inspect",
+          "name": "Исследовать",
+          "children": []
+        },
+        {
+          "id": "op.calc",
+          "name": "Вычислить",
+          "children": []
+        },
+        {
+          "id": "op.transform",
+          "name": "Преобразовать",
+          "children": []
+        },
+        {
+          "id": "op.create",
+          "name": "Создать",
+          "children": []
+        },
+        {
+          "id": "op.transfer",
+          "name": "Передать",
+          "children": []
+        },
+        {
+          "id": "op.receive",
+          "name": "Получить",
+          "children": []
+        },
+        {
+          "id": "op.manage",
+          "name": "Управлять",
+          "children": []
+        },
+        {
+          "id": "op.access",
+          "name": "Получить доступ",
+          "children": []
+        },
+        {
+          "id": "op.experience",
+          "name": "Испытать",
+          "children": []
+        }
+      ]
+    }
+  ],
+  "questions": {
+    "root.view": {
+      "id": "root.view",
+      "text": "Эта страница показывает набор результатов, который зависит от поиска, фильтра, сортировки, ленты, карты или другого выбранного вида?",
+      "yes": "q:view.search?",
+      "no": "q:root.operator"
+    },
+    "root.operator": {
+      "id": "root.operator",
+      "text": "Этот ресурс в основном работает как операция: ты даёшь ему вход, данные или команду и получаешь результат?",
+      "yes": "q:op.find?",
+      "no": "q:root.object"
+    },
+    "root.object": {
+      "id": "root.object",
+      "text": "Закладка указывает на одну конкретную самостоятельную вещь, а не на место, где находятся другие вещи?",
+      "yes": "q:obj.media?",
+      "no": "q:root.space"
+    },
+    "root.space": {
+      "id": "root.space",
+      "text": "Это устойчивое место внутри более крупного ресурса: канал, профиль, проект, сообщество, раздел или похожая область?",
+      "yes": "q:space.project?",
+      "no": "q:env.workshop?"
+    },
+    "env.workshop?": {
+      "id": "env.workshop?",
+      "text": "В центре ресурса — создание и изменение твоих или командных проектов, документов и других рабочих сущностей?",
+      "yes": "f:env.workshop",
+      "no": "q:env.market?"
+    },
+    "env.market?": {
+      "id": "env.market?",
+      "text": "В центре — товары, объявления, предложения, продавцы и сделки?",
+      "yes": "f:env.market",
+      "no": "q:env.cabinet?"
+    },
+    "env.cabinet?": {
+      "id": "env.cabinet?",
+      "text": "Это в основном твои отношения с одной организацией или сервисом: услуги, счета, настройки, подписка, личные данные?",
+      "yes": "f:env.cabinet",
+      "no": "q:env.world?"
+    },
+    "env.world?": {
+      "id": "env.world?",
+      "text": "Само участие в интерактивном виртуальном мире является главным содержанием ресурса?",
+      "yes": "f:env.world",
+      "no": "q:env.library?"
+    },
+    "env.library?": {
+      "id": "env.library?",
+      "text": "Если убрать подписки, комментарии и личные сообщения, останется ли основная ценность ресурса в самих опубликованных материалах?",
+      "yes": "f:env.library",
+      "no": "f:env.network"
+    },
+    "space.project?": {
+      "id": "space.project?",
+      "text": "Здесь ведётся работа над одним проектом или набором связанных изменяемых сущностей?",
+      "yes": "f:space.project",
+      "no": "q:space.dialog?"
+    },
+    "space.dialog?": {
+      "id": "space.dialog?",
+      "text": "Это разговор между заранее определёнными участниками?",
+      "yes": "f:space.dialog",
+      "no": "q:space.discussion?"
+    },
+    "space.discussion?": {
+      "id": "space.discussion?",
+      "text": "Это обсуждение одной темы, куда участники добавляют сообщения?",
+      "yes": "f:space.discussion",
+      "no": "q:space.community?"
+    },
+    "space.community?": {
+      "id": "space.community?",
+      "text": "Множество участников образуют здесь устойчивое сообщество?",
+      "yes": "f:space.community",
+      "no": "q:space.channel?"
+    },
+    "space.channel?": {
+      "id": "space.channel?",
+      "text": "Это поток публикаций одного источника или автора, на который можно подписаться?",
+      "yes": "f:space.channel",
+      "no": "q:space.profile?"
+    },
+    "space.profile?": {
+      "id": "space.profile?",
+      "text": "Страница представляет одного человека, автора, аккаунт или организацию?",
+      "yes": "f:space.profile",
+      "no": "q:space.collection?"
+    },
+    "space.collection?": {
+      "id": "space.collection?",
+      "text": "Это вручную собранный набор других объектов — плейлист, альбом, подборка или коллекция?",
+      "yes": "f:space.collection",
+      "no": "f:space.section"
+    },
+    "obj.media?": {
+      "id": "obj.media?",
+      "text": "Эту конкретную штуку в первую очередь смотрят или слушают?",
+      "yes": "q:obj.video?",
+      "no": "q:obj.file?"
+    },
+    "obj.video?": {
+      "id": "obj.video?",
+      "text": "Это движущееся изображение — ролик, клип, анимация или запись стрима?",
+      "yes": "f:obj.video",
+      "no": "q:obj.audio?"
+    },
+    "obj.audio?": {
+      "id": "obj.audio?",
+      "text": "Это в первую очередь звук — трек, подкаст или запись?",
+      "yes": "f:obj.audio",
+      "no": "f:obj.image"
+    },
+    "obj.file?": {
+      "id": "obj.file?",
+      "text": "URL ведёт прямо на скачиваемый файл или отдельный файловый ресурс?",
+      "yes": "q:obj.document?",
+      "no": "q:obj.software?"
+    },
+    "obj.document?": {
+      "id": "obj.document?",
+      "text": "Это документ для чтения: PDF, DOC, электронная книга и подобное?",
+      "yes": "f:obj.document",
+      "no": "q:obj.archive?"
+    },
+    "obj.archive?": {
+      "id": "obj.archive?",
+      "text": "Это архив или контейнер из нескольких файлов?",
+      "yes": "f:obj.archive",
+      "no": "f:obj.download"
+    },
+    "obj.software?": {
+      "id": "obj.software?",
+      "text": "Это конкретный программный артефакт: пакет, релиз, модель или скрипт?",
+      "yes": "q:obj.release?",
+      "no": "q:obj.task?"
+    },
+    "obj.release?": {
+      "id": "obj.release?",
+      "text": "Это конкретная версия или релиз программы?",
+      "yes": "f:obj.release",
+      "no": "q:obj.model?"
+    },
+    "obj.model?": {
+      "id": "obj.model?",
+      "text": "Это модель — например ML/AI-модель или похожий распространяемый артефакт?",
+      "yes": "f:obj.model",
+      "no": "q:obj.script?"
+    },
+    "obj.script?": {
+      "id": "obj.script?",
+      "text": "Это небольшой отдельный скрипт или сниппет?",
+      "yes": "f:obj.script",
+      "no": "f:obj.package"
+    },
+    "obj.task?": {
+      "id": "obj.task?",
+      "text": "Это задача, issue, ticket или другой отслеживаемый пункт работы?",
+      "yes": "f:obj.task",
+      "no": "q:obj.change?"
+    },
+    "obj.change?": {
+      "id": "obj.change?",
+      "text": "Это изменение: pull request, merge request, patch, commit или предложение правки?",
+      "yes": "f:obj.change",
+      "no": "q:obj.product?"
+    },
+    "obj.product?": {
+      "id": "obj.product?",
+      "text": "Это карточка конкретного товара или предложения?",
+      "yes": "f:obj.product",
+      "no": "q:obj.event?"
+    },
+    "obj.event?": {
+      "id": "obj.event?",
+      "text": "Это конкретное событие с датой или временем?",
+      "yes": "f:obj.event",
+      "no": "q:obj.place?"
+    },
+    "obj.place?": {
+      "id": "obj.place?",
+      "text": "Это конкретное физическое место или географический объект?",
+      "yes": "f:obj.place",
+      "no": "q:obj.post?"
+    },
+    "obj.post?": {
+      "id": "obj.post?",
+      "text": "Это короткая публикация в социальной или новостной ленте?",
+      "yes": "f:obj.post",
+      "no": "q:obj.message?"
+    },
+    "obj.message?": {
+      "id": "obj.message?",
+      "text": "Это одно отдельное сообщение внутри разговора, канала или треда?",
+      "yes": "f:obj.message",
+      "no": "q:obj.docs?"
+    },
+    "obj.docs?": {
+      "id": "obj.docs?",
+      "text": "Это страница документации конкретного продукта, API или технологии?",
+      "yes": "f:obj.docs",
+      "no": "f:obj.article"
+    },
+    "view.search?": {
+      "id": "view.search?",
+      "text": "Здесь показаны результаты введённого поискового запроса?",
+      "yes": "f:view.search",
+      "no": "q:view.filter?"
+    },
+    "view.filter?": {
+      "id": "view.filter?",
+      "text": "Элементы выбраны по тегам, категориям, условиям или настройкам фильтра?",
+      "yes": "f:view.filter",
+      "no": "q:view.feed?"
+    },
+    "view.feed?": {
+      "id": "view.feed?",
+      "text": "Это постоянно обновляющийся поток новых элементов?",
+      "yes": "f:view.feed",
+      "no": "q:view.rank?"
+    },
+    "view.rank?": {
+      "id": "view.rank?",
+      "text": "Элементы специально упорядочены по рейтингу, популярности, баллам или месту?",
+      "yes": "f:view.rank",
+      "no": "q:view.dashboard?"
+    },
+    "view.dashboard?": {
+      "id": "view.dashboard?",
+      "text": "Главное здесь — показатели, графики, состояние системы и агрегированные данные?",
+      "yes": "f:view.dashboard",
+      "no": "q:view.map?"
+    },
+    "view.map?": {
+      "id": "view.map?",
+      "text": "Главное представление здесь географическое — карта или выбранная область карты?",
+      "yes": "f:view.map",
+      "no": "q:view.calendar?"
+    },
+    "view.calendar?": {
+      "id": "view.calendar?",
+      "text": "Главное представление здесь временное — календарь, расписание или таймлайн?",
+      "yes": "f:view.calendar",
+      "no": "q:view.compare?"
+    },
+    "view.compare?": {
+      "id": "view.compare?",
+      "text": "Несколько объектов специально поставлены рядом для сравнения?",
+      "yes": "f:view.compare",
+      "no": "f:view.list"
+    },
+    "op.find?": {
+      "id": "op.find?",
+      "text": "Главный результат — найти существующие вещи, страницы, файлы или ссылки?",
+      "yes": "f:op.find",
+      "no": "q:op.inspect?"
+    },
+    "op.inspect?": {
+      "id": "op.inspect?",
+      "text": "Ты даёшь сервису объект или данные, а он сообщает свойства, состояние или результат анализа?",
+      "yes": "f:op.inspect",
+      "no": "q:op.calc?"
+    },
+    "op.calc?": {
+      "id": "op.calc?",
+      "text": "Ты вводишь данные, а результат — вычисленное значение, число или расчёт?",
+      "yes": "f:op.calc",
+      "no": "q:op.transform?"
+    },
+    "op.transform?": {
+      "id": "op.transform?",
+      "text": "На входе и выходе примерно одна и та же информация, но в другой форме, формате или кодировке?",
+      "yes": "f:op.transform",
+      "no": "q:op.create?"
+    },
+    "op.create?": {
+      "id": "op.create?",
+      "text": "Сервис создаёт новый артефакт из заданных параметров: QR, изображение, текст, конфиг и т.п.?",
+      "yes": "f:op.create",
+      "no": "q:op.transfer?"
+    },
+    "op.transfer?": {
+      "id": "op.transfer?",
+      "text": "Главная задача — загрузить, отправить или опубликовать существующий файл или объект?",
+      "yes": "f:op.transfer",
+      "no": "q:op.receive?"
+    },
+    "op.receive?": {
+      "id": "op.receive?",
+      "text": "Сервис выдаёт тебе ресурс: временный адрес, номер, bridge, токен, идентификатор и т.п.?",
+      "yes": "f:op.receive",
+      "no": "q:op.manage?"
+    },
+    "op.manage?": {
+      "id": "op.manage?",
+      "text": "Через страницу ты меняешь состояние другой системы, сервера, устройства или услуги?",
+      "yes": "f:op.manage",
+      "no": "q:op.access?"
+    },
+    "op.access?": {
+      "id": "op.access?",
+      "text": "Основная задача страницы — войти, авторизоваться, подключиться или получить доступ?",
+      "yes": "f:op.access",
+      "no": "f:op.experience"
+    }
+  }
+}
